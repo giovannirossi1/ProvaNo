@@ -3,27 +3,27 @@ var http = require("http");
 var express = require("express");
 var apiServer = express();
 
-var hostname = "127.0.0.1";
 var port = 3000;
 
-apiServer.listen(port, hostname, () => {
-    console.log("server running at http://%s:%d/", hostname, port);
+apiServer.listen(port, () => {
+    console.log("server running on port ", port);
 });
 
-apiServer.get("/nome", function(req, res)=>{
+apiServer.get("/nome", (req, res) =>{
     console.log("ho ricevuto una get su nome");
-    res.send("ciao, il nome del server: NODEROSSI");
+    res.send("ciao, il nome del server è: NODEPOGLIANI");
 });
-apiServer.get("/somma",(req, res)=>{
-    console.log("richiesta", req.query);
+
+apiServer.get("/somma", (req, res) => {
+    console.log("richiesta: " , req.query);
     if(req.query.a && req.query.b){
-        var ris= req.query.a-(-req.query.b);//non uso il + perchè serve per concatenare le stringhe
-        console.log("ris= ", ris);
-        res.send("{\"risultato\"}":"+ris+"}");
-                 }else
-                 res.send("parametri non corretti");
-    
+        var ris = req.query.a - (- req.query.b); // -> il + concatena, quindi sottraggo l'inverso
+        console.log("ris = " , ris);
+        res.send("{ \"risultato\" : " + ris + "}");
+    }else
+    res.send("parametri non corretti");
 });
-    apiServer.get("/", function(req,res)){
-                  res.send("sei in home");
-                  }
+
+apiServer.get("/", function(req, res){
+    res.send("sei in home");
+});
